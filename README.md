@@ -1,0 +1,2 @@
+# feddemo
+Angular Module federation
