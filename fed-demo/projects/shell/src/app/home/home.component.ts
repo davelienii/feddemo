@@ -1,4 +1,4 @@
-import {Component, OnInit, Type} from '@angular/core';
+import {Compiler, Component, Injector, OnInit, Type} from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -8,9 +8,13 @@ import {Component, OnInit, Type} from '@angular/core';
 export class HomeComponent implements OnInit {
 
   todoComponent?: Type<any>;
-  constructor() { }
+  constructor(
+    private compiler: Compiler,
+    private injector: Injector,
+  ) { }
 
   ngOnInit(): void {
+    //this.loadLazy();
   }
 
   loadLazy() {
@@ -18,6 +22,10 @@ export class HomeComponent implements OnInit {
       .then(mod => mod.TodoModule)
         .then(tmodule => {
           this.todoComponent = tmodule.components['lazy'];
-        });
+          return tmodule;
+        })
+      .then(tmodule => this.compiler.compileModuleAsync(tmodule))
+      .then(factory => {factory.create(this.injector);
+      });
   }
 }
