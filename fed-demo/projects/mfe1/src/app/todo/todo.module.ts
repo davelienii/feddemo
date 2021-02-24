@@ -20,4 +20,8 @@ import {RouterModule} from "@angular/router";
     TodoComponent
   ]
 })
-export class TodoModule { }
+export class TodoModule {
+  static components = {
+    lazy: TodoComponent,
+  };
+}
